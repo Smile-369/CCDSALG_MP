@@ -1,23 +1,32 @@
 import java.util.*;
 public class MP {
     static MergeSort ms= new MergeSort();
+    static BubbleSort bs= new BubbleSort();
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String Input=sc.nextLine();
-        String[] Sorted=suffixArrayCreation(Input);
+        int n= 128*(int) Math.pow(2,0);
+        String Input=createRandomString(n);
+        String[] bubbleSorted=suffixArrayCreation(Input);
+        String[] mergeSorted=suffixArrayCreation(Input);
         String[] temp = suffixArrayCreation(Input);;
-        for(int i = 0 ; i<Sorted.length;i++){
-            System.out.printf("%d %s \n",i+1,Sorted[i]);
-        }
+
         System.out.printf("\n");
 
-        ms.mergeSort(Sorted,0,Sorted.length-1);
-        int[] Index=Index(Sorted,temp);
-        for(int i = 0 ; i<Sorted.length;i++){
-            System.out.printf("%d %s\n",Index[i]+1,Sorted[i]);
+        bs.bubbleSort(bubbleSorted);
+        int[] Index=Index(bubbleSorted,temp);
+        System.out.printf("Bubble Sort: ");
+        for(int i = 0 ; i<bubbleSorted.length;i++){
+            System.out.printf(" %d ",Index[i]+1);
+            if(i==bubbleSorted.length-1){
+                System.out.printf("\n");
+            }
         }
-
+        ms.mergeSort(mergeSorted,0, mergeSorted.length-1);
+        System.out.printf("Merge Sort: ");
+        int[] Index2=Index(mergeSorted,temp);
+        for(int i = 0 ; i<mergeSorted.length;i++){
+            System.out.printf(" %d ",Index2[i]+1);
+        }
     }
     static String[] suffixArrayCreation(String Input){
         String[] Final = new String[Input.length()];
@@ -28,6 +37,23 @@ public class MP {
         }
 
         return Final;
+    }
+    public static String createRandomString(int n){
+        String Input ="acgt";
+        StringBuilder s = new StringBuilder(n);
+        for ( int i=0; i<n; i++) {
+
+
+            int ch = (int)(Input.length() * Math.random());
+
+
+
+            s.append(Input.charAt(ch));
+
+        }
+
+        return s.toString();
+
     }
     public static int[] Index(String[] Sorted, String[] Original){
         int[] Indexes=new int[Sorted.length];
@@ -92,5 +118,18 @@ public class MP {
         for (j = 0; j < n; j++) {
             a[from + j] = b[j];
         }
+    }
+}
+class BubbleSort{
+    public static void bubbleSort(String[] a){
+        int n = a.length;
+        for (int i = 0; i < n - 1; i++)
+            for (int j = 0; j < n - i - 1; j++)
+                if (a[j].compareTo(a[j+1]) > 0) {
+                    // swap arr[j+1] and arr[j]
+                    String temp = a[j];
+                    a[j] = a[j + 1];
+                    a[j + 1] = temp;
+                }
     }
 }
